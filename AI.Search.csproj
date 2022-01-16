@@ -12,16 +12,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="maze1.txt">
+    <None Update="Mazes\Resources\maze1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="maze2.txt">
+    <None Update="Mazes\Resources\maze2.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="maze4.txt">
+    <None Update="Mazes\Resources\maze4.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="maze3.txt">
+    <None Update="Mazes\Resources\maze3.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

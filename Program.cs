@@ -1,35 +1,41 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using AI.Search;
+﻿using AI.Search.Enums;
+using AI.Search.Extensions;
+using AI.Search.Mazes;
 
 while (true)
 {
     string? filename;
-    AlgorithmType algorithm;
+    AlgorithmTypes algorithm;
 
     while (true)
     {
         while (true)
         {
-            Console.WriteLine("Type 1 for StackFrontier (Depth first search) or 2 for QueueFrontier (Breadth first search) or 0 to run both:");
+            {
+                foreach (AlgorithmTypes type in Enum.GetValues(typeof(AlgorithmTypes)))
+                {
+                    var intType = (int)type;
+                    Console.WriteLine($"{intType} - {type}");
+                }
+            }
+            Console.WriteLine("Type in number or name of the algorithm to run:");
+
             var algorithmType = Console.ReadLine();
 
-            if (!string.IsNullOrWhiteSpace(algorithmType) && Enum.TryParse(algorithmType, out AlgorithmType result))
+            if (!string.IsNullOrWhiteSpace(algorithmType) && Enum.TryParse(algorithmType, out AlgorithmTypes result))
             {
                 algorithm = result;
                 break;
             }
+
             Console.WriteLine("Invalid algorithm type.");
         }
-        
+
 
         Console.WriteLine("Type maze filename with extension to run:");
         filename = Console.ReadLine();
 
-        if (!string.IsNullOrWhiteSpace(filename))
-        {
-            break;
-        }
+        if (!string.IsNullOrWhiteSpace(filename)) break;
     }
 
     try
@@ -38,30 +44,32 @@ while (true)
 
         maze.GetPrintable().Print();
 
-        if (algorithm == AlgorithmType.Both)
+        if (algorithm == AlgorithmTypes.All)
         {
-            var cost = maze.Solve(AlgorithmType.StackFrontier);
-            
-            maze.GetPrintable().Print();
+            foreach (AlgorithmTypes algorithmType in Enum.GetValues(typeof(AlgorithmTypes)))
+            {
+                if (algorithmType == AlgorithmTypes.All)
+                    continue;
+                
+                var cost = maze.Solve(algorithmType);
 
-            Console.WriteLine($"The total cost of StackFrontier (Depth first search) was: {cost}");
+                maze.GetPrintable().Print();
 
-            cost = maze.Solve(AlgorithmType.QueueFrontier);
+                maze.SaveImage();
 
-            Console.WriteLine($"The total cost of QueueFrontier (Breadth first search) was: {cost}");
-            
+                Console.WriteLine($"The total cost of {algorithmType} was: {cost}");
+            }
         }
         else
         {
             var cost = maze.Solve(algorithm);
 
-            Console.WriteLine($"The total cost was: {cost}");
-
             maze.GetPrintable().Print();
 
             maze.SaveImage();
+
+            Console.WriteLine($"The total cost of {algorithm} was: {cost}");
         }
-        
     }
     catch (Exception e)
     {
@@ -70,13 +78,7 @@ while (true)
 
     Console.WriteLine("Press any key to reset or ESC to exit.");
     var keyInfo = Console.ReadKey();
-    if (keyInfo.Key == ConsoleKey.Escape)
-    {
-        Environment.Exit(0);
-    }
+    if (keyInfo.Key == ConsoleKey.Escape) Environment.Exit(0);
 
     Console.Clear();
 }
-
-
-
