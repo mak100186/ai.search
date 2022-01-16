@@ -3,25 +3,17 @@
 using System.Drawing;
 using Enums;
 
-public class AlgorithmFactory
+public static class AlgorithmFactory
 {
-    public ISearchAlgorithm GetAlgorithm(AlgorithmTypes type, Point startPoint, Point endPoint)
+    public static ISearchAlgorithm GetAlgorithm(AlgorithmTypes type, Point startPoint, Point endPoint)
     {
-        switch (type)
+        return type switch
         {
-            case AlgorithmTypes.BreadthFirstSearch:
-                return new BreadthFirstSearch(startPoint, endPoint);
-            
-            case AlgorithmTypes.DepthFirstSearch:
-                return new DepthFirstSearch(startPoint, endPoint);
-
-            case AlgorithmTypes.GreedyBestFirstSearch:
-                return new GreedyBestFirstSearch(startPoint, endPoint);
-
-            default:
-            case AlgorithmTypes.All:
-                throw new Exception("Unknown algorithm type passed into factory");
-            
-        }
+            AlgorithmTypes.BreadthFirstSearch => new BreadthFirstSearch(startPoint, endPoint),
+            AlgorithmTypes.DepthFirstSearch => new DepthFirstSearch(startPoint, endPoint),
+            AlgorithmTypes.GreedyBestFirstSearch => new GreedyBestFirstSearch(startPoint, endPoint),
+            AlgorithmTypes.AStarSearch => new AStarSearch(startPoint, endPoint),
+            _ => throw new Exception("Unknown algorithm type passed into factory"),
+        };
     }
 }

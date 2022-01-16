@@ -5,5 +5,6 @@ public enum AlgorithmTypes
     All,
     DepthFirstSearch,
     BreadthFirstSearch,
-    GreedyBestFirstSearch
+    GreedyBestFirstSearch,
+    AStarSearch,
 }

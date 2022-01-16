@@ -155,7 +155,7 @@ public class Maze
         _solution = null;
 
         var startNode = Node.GetStartNode(_start);
-        var frontier = new AlgorithmFactory().GetAlgorithm(algorithm, _start, _end);
+        var frontier = AlgorithmFactory.GetAlgorithm(algorithm, _start, _end);
         frontier.Add(startNode);
 
         while (true)
